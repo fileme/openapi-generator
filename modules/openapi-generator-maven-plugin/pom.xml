@@ -2,10 +2,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.openapitools</groupId>
+        <groupId>com.fileme.org.openapitools</groupId>
         <artifactId>openapi-generator-project</artifactId>
         <!-- RELEASE_VERSION -->
-        <version>6.3.0-SNAPSHOT</version>
+        <version>6.3.0.${BUILD_NUMBER}</version>
         <!-- /RELEASE_VERSION -->
         <relativePath>../..</relativePath>
     </parent>
@@ -13,8 +13,6 @@
     <name>openapi-generator (maven-plugin)</name>
     <packaging>maven-plugin</packaging>
     <description>maven plugin to build modules from OpenAPI Generator</description>
-    <groupId>com.fileme.org.openapitools</groupId>
-    <version>6.3.${BUILD_NUMBER}</version>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <sonar.exclusions>**/src/main/java/org/openapitools/codegen/plugin/**/*</sonar.exclusions>
@@ -55,7 +53,7 @@
         <dependency>
             <groupId>com.fileme.org.openapitools</groupId>
             <artifactId>openapi-generator</artifactId>
-            <version>6.3.${BUILD_NUMBER}</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
