@@ -13,6 +13,7 @@
     <packaging>jar</packaging>
     <name>openapi-generator (core library)</name>
     <groupId>com.fileme.org.openapitools</groupId>
+    <version>6.3.${BUILD_NUMBER}</version>
     <build>
         <sourceDirectory>src/main/java</sourceDirectory>
         <defaultGoal>install</defaultGoal>
