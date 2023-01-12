@@ -13,6 +13,7 @@
     <name>openapi-generator (maven-plugin)</name>
     <packaging>maven-plugin</packaging>
     <description>maven plugin to build modules from OpenAPI Generator</description>
+    <groupId>com.fileme.org.openapitools</groupId>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <sonar.exclusions>**/src/main/java/org/openapitools/codegen/plugin/**/*</sonar.exclusions>
@@ -51,7 +52,7 @@
             <version>3.6.4</version>
         </dependency>
         <dependency>
-            <groupId>org.openapitools</groupId>
+            <groupId>com.fileme.org.openapitools</groupId>
             <artifactId>openapi-generator</artifactId>
             <version>${project.version}</version>
         </dependency>
