@@ -121,11 +121,14 @@
         {{#description}}
         /// <value>{{.}}</value>
         {{/description}}
+        {{#example}}
+        /// <example>{{.}}</example>
+        {{/example}}
         [JsonPropertyName("{{baseName}}")]
         {{#deprecated}}
         [Obsolete]
         {{/deprecated}}
-        public {{>PropertyDataType}} {{name}} { get; {{^isReadOnly}}set; {{/isReadOnly}}}
+        public {{#isNew}}new {{/isNew}}{{>PropertyDataType}} {{name}} { get; {{^isReadOnly}}set; {{/isReadOnly}}}
 
         {{/isEnum}}
         {{/vars}}
@@ -134,6 +137,9 @@
         /// {{description}}{{^description}}Gets or Sets {{#lambda.titlecase}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.titlecase}}{{/description}}
         /// </summary>{{#description}}
         /// <value>{{.}}</value>{{/description}}
+        {{#example}}
+        /// <example>{{.}}</example>
+        {{/example}}
         {{#deprecated}}
         [Obsolete]
         {{/deprecated}}
@@ -145,6 +151,9 @@
         /// {{description}}{{^description}}Gets or Sets {{#lambda.titlecase}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.titlecase}}{{/description}}
         /// </summary>{{#description}}
         /// <value>{{.}}</value>{{/description}}
+        {{#example}}
+        /// <example>{{.}}</example>
+        {{/example}}
         {{#deprecated}}
         [Obsolete]
         {{/deprecated}}
@@ -157,6 +166,9 @@
         /// {{description}}{{^description}}Gets or Sets {{#lambda.titlecase}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.titlecase}}{{/description}}
         /// </summary>{{#description}}
         /// <value>{{.}}</value>{{/description}}
+        {{#example}}
+        /// <example>{{.}}</example>
+        {{/example}}
         {{#deprecated}}
         [Obsolete]
         {{/deprecated}}
@@ -165,20 +177,40 @@
         {{/isInherited}}
         {{/composedSchemas.allOf}}
         {{#allVars}}
-        {{^isInherited}}
         {{^isEnum}}
+        {{#isInherited}}
+        {{#isNew}}
         /// <summary>
         /// {{description}}{{^description}}Gets or Sets {{{name}}}{{/description}}
         /// </summary>{{#description}}
         /// <value>{{.}}</value>{{/description}}
+        {{#example}}
+        /// <example>{{.}}</example>
+        {{/example}}
+        [JsonPropertyName("{{baseName}}")]
+        {{#deprecated}}
+        [Obsolete]
+        {{/deprecated}}
+        public new {{#isNullable}}{{#lambda.optional}}{{{datatypeWithEnum}}}{{/lambda.optional}}{{/isNullable}}{{^isNullable}}{{{datatypeWithEnum}}}{{/isNullable}} {{name}} { get; {{^isReadOnly}}set; {{/isReadOnly}}}
+
+        {{/isNew}}
+        {{/isInherited}}
+        {{^isInherited}}
+        /// <summary>
+        /// {{description}}{{^description}}Gets or Sets {{{name}}}{{/description}}
+        /// </summary>{{#description}}
+        /// <value>{{.}}</value>{{/description}}
+        {{#example}}
+        /// <example>{{.}}</example>
+        {{/example}}
         [JsonPropertyName("{{baseName}}")]
         {{#deprecated}}
         [Obsolete]
         {{/deprecated}}
         public {{#isNullable}}{{#lambda.optional}}{{{datatypeWithEnum}}}{{/lambda.optional}}{{/isNullable}}{{^isNullable}}{{{datatypeWithEnum}}}{{/isNullable}} {{name}} { get; {{^isReadOnly}}set; {{/isReadOnly}}}
 
-        {{/isEnum}}
         {{/isInherited}}
+        {{/isEnum}}
         {{/allVars}}
         {{#isAdditionalPropertiesTrue}}
         {{^parentModel}}

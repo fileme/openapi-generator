@@ -82,12 +82,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   {{/isContainer}}
   {{/vendorExtensions.x-is-jackson-optional-nullable}}
   {{^vendorExtensions.x-is-jackson-optional-nullable}}
-  {{#isContainer}}
-  private {{{datatypeWithEnum}}} {{name}}{{#required}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/required}}{{^required}} = null{{/required}};
-  {{/isContainer}}
-  {{^isContainer}}
   private {{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
-  {{/isContainer}}
   {{/vendorExtensions.x-is-jackson-optional-nullable}}
 
   {{/vars}}
@@ -136,7 +131,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   public {{classname}} add{{nameInCamelCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
     {{#vendorExtensions.x-is-jackson-optional-nullable}}
     if (this.{{name}} == null || !this.{{name}}.isPresent()) {
-      this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{{defaultValue}}});
+      this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{{defaultValue}}}{{^defaultValue}}new {{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}ArrayList{{/uniqueItems}}<>(){{/defaultValue}});
     }
     try {
       this.{{name}}.get().add({{name}}Item);
@@ -147,9 +142,11 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
     {{/vendorExtensions.x-is-jackson-optional-nullable}}
     {{^vendorExtensions.x-is-jackson-optional-nullable}}
     {{^required}}
+    {{#defaultValue}}
     if (this.{{name}} == null) {
       this.{{name}} = {{{defaultValue}}};
     }
+    {{/defaultValue}}
     {{/required}}
     this.{{name}}.add({{name}}Item);
     return this;
@@ -161,7 +158,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   public {{classname}} put{{nameInCamelCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {
     {{#vendorExtensions.x-is-jackson-optional-nullable}}
     if (this.{{name}} == null || !this.{{name}}.isPresent()) {
-      this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{{defaultValue}}});
+      this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{{defaultValue}}}{{^defaultValue}}new HashMap<>(){{/defaultValue}});
     }
     try {
       this.{{name}}.get().put(key, {{name}}Item);
@@ -172,9 +169,11 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
     {{/vendorExtensions.x-is-jackson-optional-nullable}}
     {{^vendorExtensions.x-is-jackson-optional-nullable}}
     {{^required}}
+    {{#defaultValue}}
     if (this.{{name}} == null) {
       this.{{name}} = {{{defaultValue}}};
     }
+    {{/defaultValue}}
     {{/required}}
     this.{{name}}.put(key, {{name}}Item);
     return this;
@@ -390,7 +389,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
     return 0;
   }
 
-  public static final Parcelable.Creator<{{classname}}> CREATOR = new Parcelable.Creator<{{classname}}>() {
+  public static final Parcelable.Creator<{{classname}}> CREATOR = new Parcelable.Creator<>() {
     public {{classname}} createFromParcel(Parcel in) {
 {{#model}}
 {{#isArray}}
@@ -409,14 +408,14 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   };
 {{/parcelableModel}}
 {{#discriminator}}
-static {
-  // Initialize and register the discriminator mappings.
-  Map<String, Class<?>> mappings = new HashMap<String, Class<?>>();
-  {{#mappedModels}}
-  mappings.put("{{mappingName}}", {{modelName}}.class);
-  {{/mappedModels}}
-  mappings.put("{{name}}", {{classname}}.class);
-  JSON.registerDiscriminator({{classname}}.class, "{{propertyBaseName}}", mappings);
-}
+  static {
+    // Initialize and register the discriminator mappings.
+    Map<String, Class<?>> mappings = new HashMap<>();
+    {{#mappedModels}}
+    mappings.put("{{mappingName}}", {{modelName}}.class);
+    {{/mappedModels}}
+    mappings.put("{{name}}", {{classname}}.class);
+    JSON.registerDiscriminator({{classname}}.class, "{{propertyBaseName}}", mappings);
+  }
 {{/discriminator}}
 }

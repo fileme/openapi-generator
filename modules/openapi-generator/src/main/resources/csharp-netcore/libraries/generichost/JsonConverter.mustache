@@ -3,37 +3,53 @@
     /// </summary>
     {{>visibility}} class {{classname}}JsonConverter : JsonConverter<{{classname}}>
     {
+        {{#allVars}}
+        {{#isDateTime}}
+        /// <summary>
+        /// The format to use to serialize {{name}}
+        /// </summary>
+        public static string {{name}}Format { get; set; } = "{{{dateTimeFormat}}}";
+
+        {{/isDateTime}}
+        {{#isDate}}
+        /// <summary>
+        /// The format to use to serialize {{name}}
+        /// </summary>
+        public static string {{name}}Format { get; set; } = "{{{dateFormat}}}";
+
+        {{/isDate}}
+        {{/allVars}}
         /// <summary>
         /// A Json reader.
         /// </summary>
-        /// <param name="reader"></param>
+        /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
-        /// <param name="options"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
-        public override {{classname}} Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        public override {{classname}} Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
         {
-            int currentDepth = reader.CurrentDepth;
+            int currentDepth = utf8JsonReader.CurrentDepth;
 
-            if (reader.TokenType != JsonTokenType.StartObject && reader.TokenType != JsonTokenType.StartArray)
+            if (utf8JsonReader.TokenType != JsonTokenType.StartObject && utf8JsonReader.TokenType != JsonTokenType.StartArray)
                 throw new JsonException();
 
-            JsonTokenType startingTokenType = reader.TokenType;
+            JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
             {{#composedSchemas.anyOf}}
-            Utf8JsonReader {{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}Reader = reader;
-            bool {{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}Deserialized = Client.ClientUtils.TryDeserialize<{{{dataType}}}>(ref {{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}Reader, options, out {{{dataType}}}{{^isBoolean}}{{nrt?}}{{/isBoolean}} {{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}});
+            Utf8JsonReader {{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}Reader = utf8JsonReader;
+            bool {{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}Deserialized = Client.ClientUtils.TryDeserialize<{{{dataType}}}>(ref {{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}Reader, jsonSerializerOptions, out {{{dataType}}}{{^isBoolean}}{{nrt?}}{{/isBoolean}} {{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}});
 
             {{/composedSchemas.anyOf}}
             {{#composedSchemas.oneOf}}
-            Utf8JsonReader {{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}Reader = reader;
-            bool {{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}Deserialized = Client.ClientUtils.TryDeserialize<{{{dataType}}}>(ref {{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}Reader, options, out {{{dataType}}}{{^isBoolean}}{{nrt?}}{{/isBoolean}} {{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}});
+            Utf8JsonReader {{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}Reader = utf8JsonReader;
+            bool {{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}Deserialized = Client.ClientUtils.TryDeserialize<{{{dataType}}}>(ref {{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}Reader, jsonSerializerOptions, out {{{dataType}}}{{^isBoolean}}{{nrt?}}{{/isBoolean}} {{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}});
 
             {{/composedSchemas.oneOf}}
             {{#composedSchemas.allOf}}
             {{^isInherited}}
-            Utf8JsonReader {{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}Reader = reader;
-            bool {{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}Deserialized = Client.ClientUtils.TryDeserialize<{{{dataType}}}>(ref reader, options, out {{{dataType}}}{{^isBoolean}}{{nrt?}}{{/isBoolean}} {{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}});
+            Utf8JsonReader {{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}Reader = utf8JsonReader;
+            bool {{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}Deserialized = Client.ClientUtils.TryDeserialize<{{{dataType}}}>(ref utf8JsonReader, jsonSerializerOptions, out {{{dataType}}}{{^isBoolean}}{{nrt?}}{{/isBoolean}} {{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}});
 
             {{/isInherited}}
             {{/composedSchemas.allOf}}
@@ -41,18 +57,18 @@
             {{#isInnerEnum}}{{^isMap}}{{classname}}.{{/isMap}}{{/isInnerEnum}}{{{datatypeWithEnum}}}{{#isEnum}}{{#isNullable}}?{{/isNullable}}{{/isEnum}} {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = default;
             {{/allVars}}
 
-            while (reader.Read())
+            while (utf8JsonReader.Read())
             {
-                if (startingTokenType == JsonTokenType.StartObject && reader.TokenType == JsonTokenType.EndObject && currentDepth == reader.CurrentDepth)
+                if (startingTokenType == JsonTokenType.StartObject && utf8JsonReader.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReader.CurrentDepth)
                     break;
 
-                if (startingTokenType == JsonTokenType.StartArray && reader.TokenType == JsonTokenType.EndArray && currentDepth == reader.CurrentDepth)
+                if (startingTokenType == JsonTokenType.StartArray && utf8JsonReader.TokenType == JsonTokenType.EndArray && currentDepth == utf8JsonReader.CurrentDepth)
                     break;
 
-                if (reader.TokenType == JsonTokenType.PropertyName && currentDepth == reader.CurrentDepth - 1)
+                if (utf8JsonReader.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReader.CurrentDepth - 1)
                 {
-                    string{{nrt?}} propertyName = reader.GetString();
-                    reader.Read();
+                    string{{nrt?}} propertyName = utf8JsonReader.GetString();
+                    utf8JsonReader.Read();
 
                     switch (propertyName)
                     {
@@ -62,39 +78,50 @@
                         {{^isMap}}
                         {{^isEnum}}
                         {{^isUuid}}
-                            {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = reader.GetString();
+                            {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = utf8JsonReader.GetString();
                         {{/isUuid}}
                         {{/isEnum}}
                         {{/isMap}}
                         {{/isString}}
                         {{#isBoolean}}
-                            {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = reader.GetBoolean();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = utf8JsonReader.GetBoolean();
                         {{/isBoolean}}
                         {{#isNumeric}}
                         {{^isEnum}}
                         {{#isDouble}}
-                            {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = reader.GetDouble();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                utf8JsonReader.TryGetDouble(out {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}});
                         {{/isDouble}}
                         {{#isDecimal}}
-                            {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = reader.GetDecimal();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                utf8JsonReader.TryGetDecimal(out {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}});
                         {{/isDecimal}}
                         {{#isFloat}}
-                            {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = (float)reader.GetDouble();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                            {
+                                utf8JsonReader.TryGetDouble(out double {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}Result);
+                                {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = (float){{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}Result;
+                            }
                         {{/isFloat}}
                         {{#isLong}}
-                            {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = reader.GetInt64();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                utf8JsonReader.TryGet{{#vendorExtensions.x-unsigned}}U{{/vendorExtensions.x-unsigned}}Int64(out {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}});
                         {{/isLong}}
                         {{^isLong}}
                         {{^isFloat}}
                         {{^isDecimal}}
                         {{^isDouble}}
-                        {{#isNullable}}
-                            if (reader.TokenType != JsonTokenType.Null)
-                                {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = reader.GetInt32();
-                        {{/isNullable}}
-                        {{^isNullable}}
-                            {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = reader.GetInt32();
-                        {{/isNullable}}
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                            {{#isNullable}}
+                            {
+                                utf8JsonReader.TryGet{{#vendorExtensions.x-unsigned}}U{{/vendorExtensions.x-unsigned}}Int32(out {{#vendorExtensions.x-unsigned}}u{{/vendorExtensions.x-unsigned}}int {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}Result);
+                                {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}Result;
+                            }
+                            {{/isNullable}}
+                            {{^isNullable}}
+                                utf8JsonReader.TryGet{{#vendorExtensions.x-unsigned}}U{{/vendorExtensions.x-unsigned}}Int32(out {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}});
+                            {{/isNullable}}
                         {{/isDouble}}
                         {{/isDecimal}}
                         {{/isFloat}}
@@ -102,18 +129,24 @@
                         {{/isEnum}}
                         {{/isNumeric}}
                         {{#isDate}}
-                            {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = JsonSerializer.Deserialize<DateTime{{#isNullable}}?{{/isNullable}}>(ref reader, options);
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = JsonSerializer.Deserialize<DateTime{{#isNullable}}?{{/isNullable}}>(ref utf8JsonReader, jsonSerializerOptions);
                         {{/isDate}}
                         {{#isDateTime}}
-                            {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = JsonSerializer.Deserialize<DateTime{{#isNullable}}?{{/isNullable}}>(ref reader, options);
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = JsonSerializer.Deserialize<DateTime{{#isNullable}}?{{/isNullable}}>(ref utf8JsonReader, jsonSerializerOptions);
                         {{/isDateTime}}
                         {{#isEnum}}
                         {{^isMap}}
                         {{#isNumeric}}
-                            {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = ({{#isInnerEnum}}{{classname}}.{{/isInnerEnum}}{{{datatypeWithEnum}}}) reader.GetInt32();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                            {
+                                utf8JsonReader.TryGet{{#vendorExtensions.x-unsigned}}U{{/vendorExtensions.x-unsigned}}Int32(out {{#vendorExtensions.x-unsigned}}u{{/vendorExtensions.x-unsigned}}int {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}Result);
+                                {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = ({{#isInnerEnum}}{{classname}}.{{/isInnerEnum}}{{{datatypeWithEnum}}}){{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}Result;
+                            }
                         {{/isNumeric}}
                         {{^isNumeric}}
-                            string {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}RawValue = reader.GetString();
+                            string {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}RawValue = utf8JsonReader.GetString();
                             {{^isInnerEnum}}
                             {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = {{{datatypeWithEnum}}}Converter.FromString{{#isNullable}}OrDefault{{/isNullable}}({{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}RawValue);
                             {{/isInnerEnum}}
@@ -124,7 +157,16 @@
                         {{/isMap}}
                         {{/isEnum}}
                         {{#isUuid}}
-                            {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = reader.GetGuid();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                            {{#isNullable}}
+                            {
+                                utf8JsonReader.TryGetGuid(out Guid {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}Result);
+                                {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}Result;
+                            }
+                            {{/isNullable}}
+                            {{^isNullable}}
+                                utf8JsonReader.TryGetGuid(out {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}});
+                            {{/isNullable}}
                         {{/isUuid}}
                         {{^isUuid}}
                         {{^isEnum}}
@@ -133,7 +175,8 @@
                         {{^isNumeric}}
                         {{^isDate}}
                         {{^isDateTime}}
-                            {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = JsonSerializer.Deserialize<{{{datatypeWithEnum}}}>(ref reader, options);
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = JsonSerializer.Deserialize<{{{datatypeWithEnum}}}>(ref utf8JsonReader, jsonSerializerOptions);
                         {{/isDateTime}}
                         {{/isDate}}
                         {{/isNumeric}}
@@ -167,9 +210,9 @@
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="{{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}"></param>
-        /// <param name="options"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public override void Write(Utf8JsonWriter writer, {{classname}} {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}, JsonSerializerOptions options)
+        public override void Write(Utf8JsonWriter writer, {{classname}} {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
 
@@ -208,12 +251,26 @@
             {{/isNumeric}}
             {{/isEnum}}
             {{#isDate}}
-            writer.WritePropertyName("{{baseName}}");
-            JsonSerializer.Serialize(writer, {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}, options);
+            {{#isNullable}}
+            if ({{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}} != null)
+                writer.WriteString("{{baseName}}", {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}.Value.ToString({{name}}Format));
+            else
+                writer.WriteNull("{{baseName}}");
+            {{/isNullable}}
+            {{^isNullable}}
+            writer.WriteString("{{baseName}}", {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}.ToString({{name}}Format));
+            {{/isNullable}}
             {{/isDate}}
             {{#isDateTime}}
-            writer.WritePropertyName("{{baseName}}");
-            JsonSerializer.Serialize(writer, {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}, options);
+            {{#isNullable}}
+            if ({{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}} != null)
+                writer.WriteString("{{baseName}}", {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}.Value.ToString({{name}}Format));
+            else
+                writer.WriteNull("{{baseName}}");
+            {{/isNullable}}
+            {{^isNullable}}
+            writer.WriteString("{{baseName}}", {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}.ToString({{name}}Format));
+            {{/isNullable}}
             {{/isDateTime}}
             {{#isEnum}}
             {{#isNumeric}}
@@ -243,7 +300,15 @@
             {{/isMap}}
             {{/isEnum}}
             {{#isUuid}}
+            {{^isNullable}}
             writer.WriteString("{{baseName}}", {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}});
+            {{/isNullable}}
+            {{#isNullable}}
+            if ({{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}} == null)
+                writer.WriteNull("{{baseName}}");
+            else
+                writer.WriteString("{{baseName}}", {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}.Value);
+            {{/isNullable}}
             {{/isUuid}}
             {{^isUuid}}
             {{^isEnum}}
@@ -253,7 +318,7 @@
             {{^isDate}}
             {{^isDateTime}}
             writer.WritePropertyName("{{baseName}}");
-            JsonSerializer.Serialize(writer, {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}, options);
+            JsonSerializer.Serialize(writer, {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}, jsonSerializerOptions);
             {{/isDateTime}}
             {{/isDate}}
             {{/isNumeric}}
