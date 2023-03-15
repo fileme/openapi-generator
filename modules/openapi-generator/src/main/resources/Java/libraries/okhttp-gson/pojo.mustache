@@ -538,11 +538,9 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
       {{/required}}
       {{^required}}
       // validate the optional field `{{{baseName}}}`
-      {{^isEnum}}
       if (jsonObj.get("{{{baseName}}}") != null && !jsonObj.get("{{{baseName}}}").isJsonNull()) {
         {{{dataType}}}.validateJsonObject(jsonObj.getAsJsonObject("{{{baseName}}}"));
       }
-      {{/isEnum}}
       {{/required}}
       {{/isModel}}
       {{/isContainer}}
