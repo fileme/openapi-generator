@@ -18,13 +18,11 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("200_response")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class Model200ResponseDto {
 
-  @JsonProperty("name")
   private Integer name;
 
-  @JsonProperty("class")
   private String propertyClass;
 
   public Model200ResponseDto name(Integer name) {
@@ -37,6 +35,7 @@ public class Model200ResponseDto {
    * @return name
   */
   
+  @JsonProperty("name")
   public Integer getName() {
     return name;
   }
@@ -55,6 +54,7 @@ public class Model200ResponseDto {
    * @return propertyClass
   */
   
+  @JsonProperty("class")
   public String getPropertyClass() {
     return propertyClass;
   }

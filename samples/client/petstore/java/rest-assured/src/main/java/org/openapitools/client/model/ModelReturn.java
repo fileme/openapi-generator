@@ -28,7 +28,7 @@ import org.hibernate.validator.constraints.*;
 /**
  * Model for testing reserved words
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class ModelReturn {
   public static final String SERIALIZED_NAME_RETURN = "return";
   @SerializedName(SERIALIZED_NAME_RETURN)
@@ -58,7 +58,6 @@ public class ModelReturn {
   public void setReturn(Integer _return) {
     this._return = _return;
   }
-
 
   @Override
   public boolean equals(Object o) {

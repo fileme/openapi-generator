@@ -40,7 +40,7 @@ import io.github.threetenjaxb.core.*;
   User.JSON_PROPERTY_PHONE,
   User.JSON_PROPERTY_USER_STATUS
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 @XmlRootElement(name = "User")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "User")
@@ -107,7 +107,6 @@ public class User {
     this.id = id;
   }
 
-
   public User username(String username) {
     
     this.username = username;
@@ -134,7 +133,6 @@ public class User {
   public void setUsername(String username) {
     this.username = username;
   }
-
 
   public User firstName(String firstName) {
     
@@ -163,7 +161,6 @@ public class User {
     this.firstName = firstName;
   }
 
-
   public User lastName(String lastName) {
     
     this.lastName = lastName;
@@ -190,7 +187,6 @@ public class User {
   public void setLastName(String lastName) {
     this.lastName = lastName;
   }
-
 
   public User email(String email) {
     
@@ -219,7 +215,6 @@ public class User {
     this.email = email;
   }
 
-
   public User password(String password) {
     
     this.password = password;
@@ -246,7 +241,6 @@ public class User {
   public void setPassword(String password) {
     this.password = password;
   }
-
 
   public User phone(String phone) {
     
@@ -275,7 +269,6 @@ public class User {
     this.phone = phone;
   }
 
-
   public User userStatus(Integer userStatus) {
     
     this.userStatus = userStatus;
@@ -302,7 +295,6 @@ public class User {
   public void setUserStatus(Integer userStatus) {
     this.userStatus = userStatus;
   }
-
 
   @Override
   public boolean equals(Object o) {

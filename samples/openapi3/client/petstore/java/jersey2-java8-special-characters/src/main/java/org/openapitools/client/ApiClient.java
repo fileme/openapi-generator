@@ -70,7 +70,7 @@ import org.openapitools.client.auth.ApiKeyAuth;
 /**
  * <p>ApiClient class.</p>
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class ApiClient extends JavaTimeFormatter {
   private static final Pattern JSON_MIME_PATTERN = Pattern.compile("(?i)^(application/json|[^;/ \t]+/[^;/ \t]+[+]json)[ \t]*(;.*)?$");
 
@@ -758,7 +758,17 @@ public class ApiClient extends JavaTimeFormatter {
           File file = (File) param.getValue();
           FormDataContentDisposition contentDisp = FormDataContentDisposition.name(param.getKey())
               .fileName(file.getName()).size(file.length()).build();
-          multiPart.bodyPart(new FormDataBodyPart(contentDisp, file, MediaType.APPLICATION_OCTET_STREAM_TYPE));
+
+          // Attempt to probe the content type for the file so that the form part is more correctly
+          // and precisely identified, but fall back to application/octet-stream if that fails.
+          MediaType type;
+          try {
+            type = MediaType.valueOf(Files.probeContentType(file.toPath()));
+          } catch (IOException | IllegalArgumentException e) {
+            type = MediaType.APPLICATION_OCTET_STREAM_TYPE;
+          }
+
+          multiPart.bodyPart(new FormDataBodyPart(contentDisp, file, type));
         } else {
           FormDataContentDisposition contentDisp = FormDataContentDisposition.name(param.getKey()).build();
           multiPart.bodyPart(new FormDataBodyPart(contentDisp, parameterToString(param.getValue())));
@@ -1100,8 +1110,8 @@ public class ApiClient extends JavaTimeFormatter {
     clientConfig = getDefaultClientConfig();
 
     ClientBuilder clientBuilder = ClientBuilder.newBuilder();
-    customizeClientBuilder(clientBuilder);
     clientBuilder = clientBuilder.withConfig(clientConfig);
+    customizeClientBuilder(clientBuilder);
     return clientBuilder.build();
   }
 

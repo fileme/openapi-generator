@@ -18,10 +18,9 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("File")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class FileDto {
 
-  @JsonProperty("sourceURI")
   private String sourceURI;
 
   public FileDto sourceURI(String sourceURI) {
@@ -34,6 +33,7 @@ public class FileDto {
    * @return sourceURI
   */
   
+  @JsonProperty("sourceURI")
   public String getSourceURI() {
     return sourceURI;
   }

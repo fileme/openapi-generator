@@ -34,7 +34,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   MapTest.JSON_PROPERTY_DIRECT_MAP,
   MapTest.JSON_PROPERTY_INDIRECT_MAP
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class MapTest {
   public static final String JSON_PROPERTY_MAP_MAP_OF_STRING = "map_map_of_string";
   private Map<String, Map<String, String>> mapMapOfString = new HashMap<>();
@@ -119,7 +119,6 @@ public class MapTest {
     this.mapMapOfString = mapMapOfString;
   }
 
-
   public MapTest mapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
     
     this.mapOfEnumString = mapOfEnumString;
@@ -152,7 +151,6 @@ public class MapTest {
   public void setMapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
     this.mapOfEnumString = mapOfEnumString;
   }
-
 
   public MapTest directMap(Map<String, Boolean> directMap) {
     
@@ -187,7 +185,6 @@ public class MapTest {
     this.directMap = directMap;
   }
 
-
   public MapTest indirectMap(Map<String, Boolean> indirectMap) {
     
     this.indirectMap = indirectMap;
@@ -220,7 +217,6 @@ public class MapTest {
   public void setIndirectMap(Map<String, Boolean> indirectMap) {
     this.indirectMap = indirectMap;
   }
-
 
   @Override
   public boolean equals(Object o) {

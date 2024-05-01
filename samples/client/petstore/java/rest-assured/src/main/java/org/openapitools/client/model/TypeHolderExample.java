@@ -23,6 +23,7 @@ import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -31,7 +32,7 @@ import org.hibernate.validator.constraints.*;
 /**
  * TypeHolderExample
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class TypeHolderExample {
   public static final String SERIALIZED_NAME_STRING_ITEM = "string_item";
   @SerializedName(SERIALIZED_NAME_STRING_ITEM)
@@ -83,7 +84,6 @@ public class TypeHolderExample {
     this.stringItem = stringItem;
   }
 
-
   public TypeHolderExample numberItem(BigDecimal numberItem) {
     
     this.numberItem = numberItem;
@@ -108,7 +108,6 @@ public class TypeHolderExample {
     this.numberItem = numberItem;
   }
 
-
   public TypeHolderExample floatItem(Float floatItem) {
     
     this.floatItem = floatItem;
@@ -131,7 +130,6 @@ public class TypeHolderExample {
   public void setFloatItem(Float floatItem) {
     this.floatItem = floatItem;
   }
-
 
   public TypeHolderExample integerItem(Integer integerItem) {
     
@@ -156,7 +154,6 @@ public class TypeHolderExample {
     this.integerItem = integerItem;
   }
 
-
   public TypeHolderExample boolItem(Boolean boolItem) {
     
     this.boolItem = boolItem;
@@ -180,7 +177,6 @@ public class TypeHolderExample {
     this.boolItem = boolItem;
   }
 
-
   public TypeHolderExample arrayItem(List<Integer> arrayItem) {
     
     this.arrayItem = arrayItem;
@@ -188,6 +184,9 @@ public class TypeHolderExample {
   }
 
   public TypeHolderExample addArrayItemItem(Integer arrayItemItem) {
+    if (this.arrayItem == null) {
+      this.arrayItem = new ArrayList<>();
+    }
     this.arrayItem.add(arrayItemItem);
     return this;
   }
@@ -208,7 +207,6 @@ public class TypeHolderExample {
   public void setArrayItem(List<Integer> arrayItem) {
     this.arrayItem = arrayItem;
   }
-
 
   @Override
   public boolean equals(Object o) {

@@ -21,17 +21,23 @@ import javax.annotation.Generated;
  */
 
 @JsonTypeName("ApiResponse")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class ModelApiResponse {
 
-  @JsonProperty("code")
   private Integer code;
 
-  @JsonProperty("type")
   private String type;
 
-  @JsonProperty("message")
   private String message;
+
+  /**
+  * Constructor with all args parameters
+  */
+  public ModelApiResponse(Integer code, String type, String message) {
+      this.code = code;
+      this.type = type;
+      this.message = message;
+  }
 
   public ModelApiResponse code(Integer code) {
     this.code = code;
@@ -44,6 +50,7 @@ public class ModelApiResponse {
   */
   
   @ApiModelProperty(value = "")
+  @JsonProperty("code")
   public Integer getCode() {
     return code;
   }
@@ -63,6 +70,7 @@ public class ModelApiResponse {
   */
   
   @ApiModelProperty(value = "")
+  @JsonProperty("type")
   public String getType() {
     return type;
   }
@@ -82,6 +90,7 @@ public class ModelApiResponse {
   */
   
   @ApiModelProperty(value = "")
+  @JsonProperty("message")
   public String getMessage() {
     return message;
   }

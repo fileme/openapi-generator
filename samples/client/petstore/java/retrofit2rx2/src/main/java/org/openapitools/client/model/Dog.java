@@ -26,7 +26,7 @@ import org.openapitools.client.model.Animal;
 /**
  * Dog
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class Dog extends Animal {
   public static final String SERIALIZED_NAME_BREED = "breed";
   @SerializedName(SERIALIZED_NAME_BREED)
@@ -57,6 +57,17 @@ public class Dog extends Animal {
     this.breed = breed;
   }
 
+  @Override
+  public Dog className(String className) {
+    this.setClassName(className);
+    return this;
+  }
+
+  @Override
+  public Dog color(String color) {
+    this.setColor(color);
+    return this;
+  }
 
   @Override
   public boolean equals(Object o) {

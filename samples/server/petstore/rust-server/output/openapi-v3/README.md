@@ -14,7 +14,7 @@ To see how to make this your own, look here:
 [README]((https://openapi-generator.tech))
 
 - API version: 1.0.7
-
+- Generator version: 7.6.0-SNAPSHOT
 
 
 
@@ -184,7 +184,8 @@ Method | HTTP request | Description
 
 ## Documentation For Authorization
 
-## authScheme
+Authentication schemes defined for the API:
+### authScheme
 - **Type**: OAuth
 - **Flow**: accessCode
 - **Authorization URL**: http://example.org

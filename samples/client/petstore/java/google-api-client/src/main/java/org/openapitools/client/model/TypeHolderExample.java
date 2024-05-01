@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -37,7 +38,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   TypeHolderExample.JSON_PROPERTY_BOOL_ITEM,
   TypeHolderExample.JSON_PROPERTY_ARRAY_ITEM
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class TypeHolderExample {
   public static final String JSON_PROPERTY_STRING_ITEM = "string_item";
   private String stringItem;
@@ -85,7 +86,6 @@ public class TypeHolderExample {
     this.stringItem = stringItem;
   }
 
-
   public TypeHolderExample numberItem(BigDecimal numberItem) {
     
     this.numberItem = numberItem;
@@ -110,7 +110,6 @@ public class TypeHolderExample {
   public void setNumberItem(BigDecimal numberItem) {
     this.numberItem = numberItem;
   }
-
 
   public TypeHolderExample floatItem(Float floatItem) {
     
@@ -137,7 +136,6 @@ public class TypeHolderExample {
     this.floatItem = floatItem;
   }
 
-
   public TypeHolderExample integerItem(Integer integerItem) {
     
     this.integerItem = integerItem;
@@ -162,7 +160,6 @@ public class TypeHolderExample {
   public void setIntegerItem(Integer integerItem) {
     this.integerItem = integerItem;
   }
-
 
   public TypeHolderExample boolItem(Boolean boolItem) {
     
@@ -189,7 +186,6 @@ public class TypeHolderExample {
     this.boolItem = boolItem;
   }
 
-
   public TypeHolderExample arrayItem(List<Integer> arrayItem) {
     
     this.arrayItem = arrayItem;
@@ -197,6 +193,9 @@ public class TypeHolderExample {
   }
 
   public TypeHolderExample addArrayItemItem(Integer arrayItemItem) {
+    if (this.arrayItem == null) {
+      this.arrayItem = new ArrayList<>();
+    }
     this.arrayItem.add(arrayItemItem);
     return this;
   }
@@ -219,7 +218,6 @@ public class TypeHolderExample {
   public void setArrayItem(List<Integer> arrayItem) {
     this.arrayItem = arrayItem;
   }
-
 
   @Override
   public boolean equals(Object o) {

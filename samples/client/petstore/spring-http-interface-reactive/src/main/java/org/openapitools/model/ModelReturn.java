@@ -18,10 +18,9 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("Return")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class ModelReturn {
 
-  @JsonProperty("return")
   private Integer _return;
 
   public ModelReturn _return(Integer _return) {
@@ -34,6 +33,7 @@ public class ModelReturn {
    * @return _return
   */
   
+  @JsonProperty("return")
   public Integer getReturn() {
     return _return;
   }

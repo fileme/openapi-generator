@@ -26,11 +26,12 @@ import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
+import java.util.stream.Collectors;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
+import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
-import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.templating.mustache.IndentedLambda;
 import org.openapitools.codegen.utils.ModelUtils;
@@ -46,8 +47,11 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     public static final String WITHOUT_RUNTIME_CHECKS = "withoutRuntimeChecks";
     public static final String STRING_ENUMS = "stringEnums";
     public static final String STRING_ENUMS_DESC = "Generate string enums instead of objects for enum values.";
+    public static final String IMPORT_FILE_EXTENSION_SWITCH = "importFileExtension";
+    public static final String IMPORT_FILE_EXTENSION_SWITCH_DESC = "File extension to use with relative imports. Set it to '.js' or '.mjs' when using [ESM](https://nodejs.org/api/esm.html).";
 
     protected String npmRepository = null;
+    protected String importFileExtension = "";
     private boolean useSingleRequestParameter = true;
     private boolean prefixParameterInterfaces = false;
     protected boolean addedApiIndex = false;
@@ -77,7 +81,9 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     public TypeScriptFetchClientCodegen() {
         super();
 
-        modifyFeatureSet(features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
+        modifyFeatureSet(features -> features
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .includeSecurityFeatures(SecurityFeature.BearerToken));
 
         // clear import mapping (from default generator) as TS does not use it
         // at the moment
@@ -98,6 +104,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         this.cliOptions.add(new CliOption(WITHOUT_RUNTIME_CHECKS, "Setting this property to true will remove any runtime checks on the request and response payloads. Payloads will be casted to their expected types.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(SAGAS_AND_RECORDS, "Setting this property to true will generate additional files for use with redux-saga and immutablejs.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(STRING_ENUMS, STRING_ENUMS_DESC, SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
+        this.cliOptions.add(new CliOption(IMPORT_FILE_EXTENSION_SWITCH, IMPORT_FILE_EXTENSION_SWITCH_DESC).defaultValue(""));
     }
 
     @Override
@@ -116,6 +123,14 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
 
     public void setNpmRepository(String npmRepository) {
         this.npmRepository = npmRepository;
+    }
+
+    public String getImportFileExtension() {
+        return importFileExtension;
+    }
+
+    public void setImportFileExtension(String importFileExtension) {
+        this.importFileExtension = importFileExtension;
     }
 
     public Boolean getWithoutRuntimeChecks() {
@@ -208,6 +223,11 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         supportingFiles.add(new SupportingFile("index.mustache", sourceDir, "index.ts"));
         supportingFiles.add(new SupportingFile("runtime.mustache", sourceDir, "runtime.ts"));
 
+        if (additionalProperties.containsKey(IMPORT_FILE_EXTENSION_SWITCH)) {
+            this.setImportFileExtension(additionalProperties.get(IMPORT_FILE_EXTENSION_SWITCH).toString());
+        }
+        writePropertyBack(IMPORT_FILE_EXTENSION_SWITCH, getImportFileExtension());
+
         if (additionalProperties.containsKey(CodegenConstants.USE_SINGLE_REQUEST_PARAMETER)) {
             this.setUseSingleRequestParameter(convertPropertyToBoolean(CodegenConstants.USE_SINGLE_REQUEST_PARAMETER));
         }
@@ -288,8 +308,8 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     @Override
     protected ImmutableMap.Builder<String, Mustache.Lambda> addMustacheLambdas() {
         ImmutableMap.Builder<String, Mustache.Lambda> lambdas = super.addMustacheLambdas();
-        lambdas.put("indented_star_1", new IndentedLambda(1, " ", "* "));
-        lambdas.put("indented_star_4", new IndentedLambda(5, " ", "* "));
+        lambdas.put("indented_star_1", new IndentedLambda(1, " ", "* ", false, false));
+        lambdas.put("indented_star_4", new IndentedLambda(5, " ", "* ", false, false));
         return lambdas;
     }
 
@@ -305,7 +325,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
 
     @Override
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
-        codegenModel.additionalPropertiesType = getTypeDeclaration(getAdditionalProperties(schema));
+        codegenModel.additionalPropertiesType = getTypeDeclaration(ModelUtils.getAdditionalProperties(schema));
         addImport(codegenModel, codegenModel.additionalPropertiesType);
     }
 
@@ -318,6 +338,12 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             ExtendedCodegenModel cm = (ExtendedCodegenModel) mo.getModel();
             cm.imports = new TreeSet<>(cm.imports);
             this.processCodeGenModel(cm);
+        }
+
+        // Add supporting file only if we plan to generate files in /models
+        if (!objs.isEmpty() && !addedModelIndex) {
+            addedModelIndex = true;
+            supportingFiles.add(new SupportingFile("models.index.mustache", modelPackage().replace('.', File.separatorChar), "index.ts"));
         }
 
         return objs;
@@ -510,7 +536,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                 }
 
                 if (!op.hasReturnPassthroughVoid) {
-                    Schema responseSchema = unaliasSchema(ModelUtils.getSchemaFromResponse(methodResponse));
+                    Schema responseSchema = unaliasSchema(ModelUtils.getSchemaFromResponse(openAPI, methodResponse));
                     ExtendedCodegenProperty cp = null;
                     if (op.returnPassthrough instanceof String && cm != null) {
                         cp = (ExtendedCodegenProperty) this.processCodeGenModel(cm).vars.get(1);
@@ -934,16 +960,19 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     }
 
     private static boolean itemsAreUniqueId(CodegenProperty items) {
-        if (items.items != null) {
+        if (items != null && items.items != null) {
             return itemsAreUniqueId(items.items);
         };
-        if (items.vendorExtensions.get(X_IS_UNIQUE_ID) instanceof Boolean) {
+        if (items != null && items.vendorExtensions.get(X_IS_UNIQUE_ID) instanceof Boolean) {
             return Boolean.TRUE.equals(items.vendorExtensions.get(X_IS_UNIQUE_ID));
         }
         return false;
     }
 
     private static boolean itemsAreNullable(CodegenProperty items) {
+        if (items == null) {
+            return true;
+        }
         if (items.items != null) {
             return itemsAreNullable(items.items);
         };
@@ -951,6 +980,9 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     }
 
     private static String getItemsDataType(CodegenProperty items) {
+        if (items == null) {
+            return null;
+        }
         if (items.items != null) {
             return getItemsDataType(items.items);
         };
@@ -960,6 +992,8 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     class ExtendedCodegenParameter extends CodegenParameter {
         public String dataTypeAlternate;
         public boolean isUniqueId; // this parameter represents a unique id (x-isUniqueId: true)
+        public List<CodegenProperty> readOnlyVars; // a list of read-only properties
+        public boolean hasReadOnly = false; // indicates the type has at least one read-only property
 
         public boolean itemsAreUniqueId() {
             return TypeScriptFetchClientCodegen.itemsAreUniqueId(this.items);
@@ -1055,8 +1089,11 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             this.minItems = cp.minItems;
             this.uniqueItems = cp.uniqueItems;
             this.multipleOf = cp.multipleOf;
+            this.setHasVars(cp.getHasVars());
+            this.setHasRequired(cp.getHasRequired());
             this.setMaxProperties(cp.getMaxProperties());
             this.setMinProperties(cp.getMinProperties());
+            setReadOnlyVars();
         }
 
         @Override
@@ -1096,6 +1133,11 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             sb.append(", isUniqueId=").append(isUniqueId);
             sb.append(", dataTypeAlternate='").append(dataTypeAlternate).append('\'');
             return sb.toString();
+        }
+
+        private void setReadOnlyVars() {
+            readOnlyVars = vars.stream().filter(v -> v.isReadOnly).collect(Collectors.toList());
+            hasReadOnly = !readOnlyVars.isEmpty();
         }
     }
 
@@ -1203,7 +1245,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             this.isInherited = cp.isInherited;
             this.discriminatorValue = cp.discriminatorValue;
             this.nameInLowerCase = cp.nameInLowerCase;
-            this.nameInCamelCase = cp.nameInCamelCase;
+            this.nameInPascalCase = cp.nameInPascalCase;
             this.nameInSnakeCase = cp.nameInSnakeCase;
             this.enumName = cp.enumName;
             this.maxItems = cp.maxItems;
@@ -1277,6 +1319,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             this.isMultipart = o.isMultipart;
             this.isResponseBinary = o.isResponseBinary;
             this.isResponseFile = o.isResponseFile;
+            this.isResponseOptional = o.isResponseOptional;
             this.hasReference = o.hasReference;
             this.isRestfulIndex = o.isRestfulIndex;
             this.isRestfulShow = o.isRestfulShow;
@@ -1427,6 +1470,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             this.allVars = cm.allVars;
             this.requiredVars = cm.requiredVars;
             this.optionalVars = cm.optionalVars;
+            this.hasReadOnly = cm.hasReadOnly;
             this.readOnlyVars = cm.readOnlyVars;
             this.readWriteVars = cm.readWriteVars;
             this.parentVars = cm.parentVars;

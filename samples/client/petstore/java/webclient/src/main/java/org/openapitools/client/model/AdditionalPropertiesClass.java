@@ -32,7 +32,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   AdditionalPropertiesClass.JSON_PROPERTY_MAP_PROPERTY,
   AdditionalPropertiesClass.JSON_PROPERTY_MAP_OF_MAP_PROPERTY
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class AdditionalPropertiesClass {
   public static final String JSON_PROPERTY_MAP_PROPERTY = "map_property";
   private Map<String, String> mapProperty;
@@ -50,6 +50,9 @@ public class AdditionalPropertiesClass {
   }
 
   public AdditionalPropertiesClass putMapPropertyItem(String key, String mapPropertyItem) {
+    if (this.mapProperty == null) {
+      this.mapProperty = new HashMap<>();
+    }
     this.mapProperty.put(key, mapPropertyItem);
     return this;
   }
@@ -73,7 +76,6 @@ public class AdditionalPropertiesClass {
     this.mapProperty = mapProperty;
   }
 
-
   public AdditionalPropertiesClass mapOfMapProperty(Map<String, Map<String, String>> mapOfMapProperty) {
     
     this.mapOfMapProperty = mapOfMapProperty;
@@ -81,6 +83,9 @@ public class AdditionalPropertiesClass {
   }
 
   public AdditionalPropertiesClass putMapOfMapPropertyItem(String key, Map<String, String> mapOfMapPropertyItem) {
+    if (this.mapOfMapProperty == null) {
+      this.mapOfMapProperty = new HashMap<>();
+    }
     this.mapOfMapProperty.put(key, mapOfMapPropertyItem);
     return this;
   }
@@ -103,7 +108,6 @@ public class AdditionalPropertiesClass {
   public void setMapOfMapProperty(Map<String, Map<String, String>> mapOfMapProperty) {
     this.mapOfMapProperty = mapOfMapProperty;
   }
-
 
   @Override
   public boolean equals(Object o) {

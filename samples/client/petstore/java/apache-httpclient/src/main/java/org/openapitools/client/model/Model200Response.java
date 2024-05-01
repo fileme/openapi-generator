@@ -34,7 +34,7 @@ import java.util.StringJoiner;
   Model200Response.JSON_PROPERTY_PROPERTY_CLASS
 })
 @JsonTypeName("200_response")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class Model200Response {
   public static final String JSON_PROPERTY_NAME = "name";
   private Integer name;
@@ -70,7 +70,6 @@ public class Model200Response {
     this.name = name;
   }
 
-
   public Model200Response propertyClass(String propertyClass) {
     
     this.propertyClass = propertyClass;
@@ -95,7 +94,6 @@ public class Model200Response {
   public void setPropertyClass(String propertyClass) {
     this.propertyClass = propertyClass;
   }
-
 
   @Override
   public boolean equals(Object o) {

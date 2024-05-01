@@ -124,7 +124,8 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         defaultIncludes = new HashSet<>(
                 Arrays.asList(
-                        "array"
+                        "array",
+                        "map"
                 )
         );
 
@@ -274,14 +275,13 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+            Schema inner = ModelUtils.getSchemaItems(p);
             if (inner == null) {
                 return null;
             }
             return "seq[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = getAdditionalProperties(p);
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             if (inner == null) {
                 inner = new StringSchema();
             }

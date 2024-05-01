@@ -25,7 +25,7 @@ import javax.annotation.Generated;
  */
 
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class BigCat extends Cat {
 
   /**
@@ -67,14 +67,8 @@ public class BigCat extends Cat {
     }
   }
 
-  @JsonProperty("kind")
   private KindEnum kind;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link BigCat#BigCat(String)}
-   */
-  @Deprecated
   public BigCat() {
     super();
   }
@@ -84,6 +78,14 @@ public class BigCat extends Cat {
    */
   public BigCat(String className) {
     super(className);
+  }
+
+  /**
+  * Constructor with all args parameters
+  */
+  public BigCat(KindEnum kind, Boolean declawed, String className, String color) {
+      super(declawed, className, color);
+      this.kind = kind;
   }
 
   public BigCat kind(KindEnum kind) {
@@ -97,6 +99,7 @@ public class BigCat extends Cat {
   */
   
   @ApiModelProperty(value = "")
+  @JsonProperty("kind")
   public KindEnum getKind() {
     return kind;
   }
@@ -105,21 +108,21 @@ public class BigCat extends Cat {
     this.kind = kind;
   }
 
+
   public BigCat declawed(Boolean declawed) {
-    super.setDeclawed(declawed);
+    super.declawed(declawed);
     return this;
   }
 
   public BigCat className(String className) {
-    super.setClassName(className);
+    super.className(className);
     return this;
   }
 
   public BigCat color(String color) {
-    super.setColor(color);
+    super.color(color);
     return this;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

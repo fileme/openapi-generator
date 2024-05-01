@@ -9,6 +9,9 @@
 
 package petstoreserver
 
+
+
+
 // AnObject - An array 3-deep.
 type AnObject struct {
 
@@ -31,14 +34,7 @@ func AssertAnObjectRequired(obj AnObject) error {
 	return nil
 }
 
-// AssertRecurseAnObjectRequired recursively checks if required fields are not zero-ed in a nested slice.
-// Accepts only nested slice of AnObject (e.g. [][]AnObject), otherwise ErrTypeAssertionError is thrown.
-func AssertRecurseAnObjectRequired(objSlice interface{}) error {
-	return AssertRecurseInterfaceRequired(objSlice, func(obj interface{}) error {
-		aAnObject, ok := obj.(AnObject)
-		if !ok {
-			return ErrTypeAssertionError
-		}
-		return AssertAnObjectRequired(aAnObject)
-	})
+// AssertAnObjectConstraints checks if the values respects the defined constraints
+func AssertAnObjectConstraints(obj AnObject) error {
+	return nil
 }

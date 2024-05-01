@@ -34,7 +34,7 @@ import java.util.StringJoiner;
   AllOfWithSingleRef.JSON_PROPERTY_USERNAME,
   AllOfWithSingleRef.JSON_PROPERTY_SINGLE_REF_TYPE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class AllOfWithSingleRef {
   public static final String JSON_PROPERTY_USERNAME = "username";
   private String username;
@@ -70,7 +70,6 @@ public class AllOfWithSingleRef {
     this.username = username;
   }
 
-
   public AllOfWithSingleRef singleRefType(SingleRefType singleRefType) {
     
     this.singleRefType = singleRefType;
@@ -95,7 +94,6 @@ public class AllOfWithSingleRef {
   public void setSingleRefType(SingleRefType singleRefType) {
     this.singleRefType = singleRefType;
   }
-
 
   @Override
   public boolean equals(Object o) {
@@ -180,7 +178,12 @@ public class AllOfWithSingleRef {
 
     // add `SingleRefType` to the URL query string
     if (getSingleRefType() != null) {
-      joiner.add(getSingleRefType().toUrlQueryString(prefix + "SingleRefType" + suffix));
+      try {
+        joiner.add(String.format("%sSingleRefType%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getSingleRefType()), "UTF-8").replaceAll("\\+", "%20")));
+      } catch (UnsupportedEncodingException e) {
+        // Should never happen, UTF-8 is always supported
+        throw new RuntimeException(e);
+      }
     }
 
     return joiner.toString();

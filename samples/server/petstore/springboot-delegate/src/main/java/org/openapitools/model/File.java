@@ -20,11 +20,17 @@ import javax.annotation.Generated;
  */
 
 @ApiModel(description = "Must be named `File` for test.")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class File {
 
-  @JsonProperty("sourceURI")
   private String sourceURI;
+
+  /**
+  * Constructor with all args parameters
+  */
+  public File(String sourceURI) {
+      this.sourceURI = sourceURI;
+  }
 
   public File sourceURI(String sourceURI) {
     this.sourceURI = sourceURI;
@@ -37,6 +43,7 @@ public class File {
   */
   
   @ApiModelProperty(value = "Test capitalization")
+  @JsonProperty("sourceURI")
   public String getSourceURI() {
     return sourceURI;
   }

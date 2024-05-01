@@ -37,7 +37,7 @@ import java.util.StringJoiner;
   Capitalization.JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS,
   Capitalization.JSON_PROPERTY_A_T_T_N_A_M_E
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class Capitalization {
   public static final String JSON_PROPERTY_SMALL_CAMEL = "smallCamel";
   private String smallCamel;
@@ -85,7 +85,6 @@ public class Capitalization {
     this.smallCamel = smallCamel;
   }
 
-
   public Capitalization capitalCamel(String capitalCamel) {
     
     this.capitalCamel = capitalCamel;
@@ -110,7 +109,6 @@ public class Capitalization {
   public void setCapitalCamel(String capitalCamel) {
     this.capitalCamel = capitalCamel;
   }
-
 
   public Capitalization smallSnake(String smallSnake) {
     
@@ -137,7 +135,6 @@ public class Capitalization {
     this.smallSnake = smallSnake;
   }
 
-
   public Capitalization capitalSnake(String capitalSnake) {
     
     this.capitalSnake = capitalSnake;
@@ -162,7 +159,6 @@ public class Capitalization {
   public void setCapitalSnake(String capitalSnake) {
     this.capitalSnake = capitalSnake;
   }
-
 
   public Capitalization scAETHFlowPoints(String scAETHFlowPoints) {
     
@@ -189,7 +185,6 @@ public class Capitalization {
     this.scAETHFlowPoints = scAETHFlowPoints;
   }
 
-
   public Capitalization ATT_NAME(String ATT_NAME) {
     
     this.ATT_NAME = ATT_NAME;
@@ -214,7 +209,6 @@ public class Capitalization {
   public void setATTNAME(String ATT_NAME) {
     this.ATT_NAME = ATT_NAME;
   }
-
 
   @Override
   public boolean equals(Object o) {

@@ -33,7 +33,7 @@ import java.util.StringJoiner;
   Bird.JSON_PROPERTY_SIZE,
   Bird.JSON_PROPERTY_COLOR
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class Bird {
   public static final String JSON_PROPERTY_SIZE = "size";
   private String size;
@@ -69,7 +69,6 @@ public class Bird {
     this.size = size;
   }
 
-
   public Bird color(String color) {
     
     this.color = color;
@@ -94,7 +93,6 @@ public class Bird {
   public void setColor(String color) {
     this.color = color;
   }
-
 
   @Override
   public boolean equals(Object o) {

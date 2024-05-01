@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -27,25 +28,20 @@ import javax.annotation.Generated;
  * Pet
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class Pet {
 
-  @JsonProperty("id")
   private Long id;
 
-  @JsonProperty("category")
   private Category category;
 
-  @JsonProperty("name")
   private String name;
 
-  @JsonProperty("photoUrls")
   @Valid
   private Set<String> photoUrls = new LinkedHashSet<>();
 
-  @JsonProperty("tags")
   @Valid
-  private List<@Valid Tag> tags = null;
+  private List<@Valid Tag> tags = new ArrayList<>();
 
   /**
    * pet status in the store
@@ -84,14 +80,9 @@ public class Pet {
     }
   }
 
-  @JsonProperty("status")
+  @Deprecated
   private StatusEnum status;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link Pet#Pet(String, Set<String>)}
-   */
-  @Deprecated
   public Pet() {
     super();
   }
@@ -102,6 +93,18 @@ public class Pet {
   public Pet(String name, Set<String> photoUrls) {
     this.name = name;
     this.photoUrls = photoUrls;
+  }
+
+  /**
+  * Constructor with all args parameters
+  */
+  public Pet(Long id, Category category, String name, Set<String> photoUrls, List<@Valid Tag> tags, StatusEnum status) {
+      this.id = id;
+      this.category = category;
+      this.name = name;
+      this.photoUrls = photoUrls;
+      this.tags = tags;
+      this.status = status;
   }
 
   public Pet id(Long id) {
@@ -115,6 +118,7 @@ public class Pet {
   */
   
   @ApiModelProperty(value = "")
+  @JsonProperty("id")
   public Long getId() {
     return id;
   }
@@ -134,6 +138,7 @@ public class Pet {
   */
   @Valid 
   @ApiModelProperty(value = "")
+  @JsonProperty("category")
   public Category getCategory() {
     return category;
   }
@@ -153,6 +158,7 @@ public class Pet {
   */
   @NotNull 
   @ApiModelProperty(example = "doggie", required = true, value = "")
+  @JsonProperty("name")
   public String getName() {
     return name;
   }
@@ -167,6 +173,9 @@ public class Pet {
   }
 
   public Pet addPhotoUrlsItem(String photoUrlsItem) {
+    if (this.photoUrls == null) {
+      this.photoUrls = new LinkedHashSet<>();
+    }
     this.photoUrls.add(photoUrlsItem);
     return this;
   }
@@ -177,6 +186,7 @@ public class Pet {
   */
   @NotNull 
   @ApiModelProperty(required = true, value = "")
+  @JsonProperty("photoUrls")
   public Set<String> getPhotoUrls() {
     return photoUrls;
   }
@@ -205,6 +215,7 @@ public class Pet {
   */
   @Valid 
   @ApiModelProperty(value = "")
+  @JsonProperty("tags")
   public List<@Valid Tag> getTags() {
     return tags;
   }
@@ -221,13 +232,20 @@ public class Pet {
   /**
    * pet status in the store
    * @return status
+   * @deprecated
   */
   
   @ApiModelProperty(value = "pet status in the store")
+  @JsonProperty("status")
+  @Deprecated
   public StatusEnum getStatus() {
     return status;
   }
 
+  /**
+   * @deprecated
+  */
+  @Deprecated
   public void setStatus(StatusEnum status) {
     this.status = status;
   }

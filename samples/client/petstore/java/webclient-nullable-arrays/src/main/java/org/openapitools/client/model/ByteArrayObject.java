@@ -38,7 +38,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   ByteArrayObject.JSON_PROPERTY_STRING_FIELD,
   ByteArrayObject.JSON_PROPERTY_INT_FIELD
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class ByteArrayObject {
   public static final String JSON_PROPERTY_NULLABLE_ARRAY = "nullableArray";
   private JsonNullable<byte[]> nullableArray = JsonNullable.<byte[]>undefined();
@@ -91,7 +91,6 @@ public class ByteArrayObject {
     this.nullableArray = JsonNullable.<byte[]>of(nullableArray);
   }
 
-
   public ByteArrayObject normalArray(byte[] normalArray) {
     
     this.normalArray = normalArray;
@@ -116,7 +115,6 @@ public class ByteArrayObject {
   public void setNormalArray(byte[] normalArray) {
     this.normalArray = normalArray;
   }
-
 
   public ByteArrayObject nullableString(String nullableString) {
     this.nullableString = JsonNullable.<String>of(nullableString);
@@ -151,7 +149,6 @@ public class ByteArrayObject {
     this.nullableString = JsonNullable.<String>of(nullableString);
   }
 
-
   public ByteArrayObject stringField(String stringField) {
     
     this.stringField = stringField;
@@ -177,7 +174,6 @@ public class ByteArrayObject {
     this.stringField = stringField;
   }
 
-
   public ByteArrayObject intField(BigDecimal intField) {
     
     this.intField = intField;
@@ -202,7 +198,6 @@ public class ByteArrayObject {
   public void setIntField(BigDecimal intField) {
     this.intField = intField;
   }
-
 
   @Override
   public boolean equals(Object o) {

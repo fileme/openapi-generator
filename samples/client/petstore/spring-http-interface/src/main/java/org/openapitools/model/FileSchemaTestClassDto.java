@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.model.FileDto;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -21,15 +22,13 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("FileSchemaTestClass")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class FileSchemaTestClassDto {
 
-  @JsonProperty("file")
   private FileDto file;
 
-  @JsonProperty("files")
   
-  private List<FileDto> files = null;
+  private List<FileDto> files = new ArrayList<>();
 
   public FileSchemaTestClassDto file(FileDto file) {
     this.file = file;
@@ -41,6 +40,7 @@ public class FileSchemaTestClassDto {
    * @return file
   */
   
+  @JsonProperty("file")
   public FileDto getFile() {
     return file;
   }
@@ -67,6 +67,7 @@ public class FileSchemaTestClassDto {
    * @return files
   */
   
+  @JsonProperty("files")
   public List<FileDto> getFiles() {
     return files;
   }

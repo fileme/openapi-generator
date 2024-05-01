@@ -19,11 +19,17 @@ import javax.annotation.Generated;
  * Client
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class Client {
 
-  @JsonProperty("client")
   private String client;
+
+  /**
+  * Constructor with all args parameters
+  */
+  public Client(String client) {
+      this.client = client;
+  }
 
   public Client client(String client) {
     this.client = client;
@@ -36,6 +42,7 @@ public class Client {
   */
   
   @ApiModelProperty(value = "")
+  @JsonProperty("client")
   public String getClient() {
     return client;
   }

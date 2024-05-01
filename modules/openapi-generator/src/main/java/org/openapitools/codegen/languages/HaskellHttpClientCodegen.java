@@ -367,11 +367,17 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         }
     }
 
-    public void setDateTimeFormat(String value) { setStringProp(PROP_DATETIME_FORMAT, value); }
+    public void setDateTimeFormat(String value) {
+        setStringProp(PROP_DATETIME_FORMAT, value);
+    }
 
-    public void setDateTimeParseFormat(String value) { setStringProp(PROP_DATETIME_PARSE_FORMAT, value); }
+    public void setDateTimeParseFormat(String value) {
+        setStringProp(PROP_DATETIME_PARSE_FORMAT, value);
+    }
 
-    public void setDateFormat(String value) { setStringProp(PROP_DATE_FORMAT, value); }
+    public void setDateFormat(String value) {
+        setStringProp(PROP_DATE_FORMAT, value);
+    }
 
     public void setCabalPackage(String value) {
         setStringProp(PROP_CABAL_PACKAGE, value);
@@ -406,7 +412,9 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         this.useKatip = value;
     }
 
-    public void setCustomTestInstanceModule(String value) { setStringProp(PROP_CUSTOM_TEST_INSTANCE_MODULE, value); }
+    public void setCustomTestInstanceModule(String value) {
+        setStringProp(PROP_CUSTOM_TEST_INSTANCE_MODULE, value);
+    }
 
     private void setStringProp(String key, String value) {
         if (StringUtils.isBlank(value)) {
@@ -542,7 +550,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     public void preprocessOpenAPI(OpenAPI openAPI) {
         String baseTitle = openAPI.getInfo().getTitle();
 
-        if (baseTitle == null) {
+        if (StringUtils.isBlank(baseTitle)) {
             baseTitle = "OpenAPI";
         } else {
             baseTitle = baseTitle.trim();
@@ -645,11 +653,10 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+            Schema inner = ModelUtils.getSchemaItems(p);
             return "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = getAdditionalProperties(p);
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return "(Map.Map String " + getTypeDeclaration(inner) + ")";
         }
         return super.getTypeDeclaration(p);
@@ -671,7 +678,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     @Override
     public String toInstantiationType(Schema p) {
         if (ModelUtils.isMapSchema(p)) {
-            Schema additionalProperties2 = getAdditionalProperties(p);
+            Schema additionalProperties2 = ModelUtils.getAdditionalProperties(p);
             String type = additionalProperties2.getType();
             if (null == type) {
                 LOGGER.error("No Type defined for Additional Schema {}\n\tIn Schema: {}", additionalProperties2, p);
@@ -679,8 +686,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
             String inner = getSchemaType(additionalProperties2);
             return "(Map.Map Text " + inner + ")";
         } else if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            return getSchemaType(ap.getItems());
+            return getSchemaType(ModelUtils.getSchemaItems(p));
         } else {
             return null;
         }
@@ -737,10 +743,15 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
             param.vendorExtensions.put(VENDOR_EXTENSION_X_IS_BODY_OR_FORM_PARAM, param.isBodyParam || param.isFormParam);
             if (!StringUtils.isBlank(param.collectionFormat)) {
                 param.vendorExtensions.put(VENDOR_EXTENSION_X_COLLECTION_FORMAT, mapCollectionFormat(param.collectionFormat));
-            } else if (!param.isBodyParam && (param.isArray || param.dataType.startsWith("["))) { // param.isArray is sometimes false for list types
-                // defaulting due to https://github.com/wing328/openapi-generator/issues/72
-                param.collectionFormat = "csv";
-                param.vendorExtensions.put(VENDOR_EXTENSION_X_COLLECTION_FORMAT, mapCollectionFormat(param.collectionFormat));
+            } else if (!param.isBodyParam) {
+                if (param.isArray || param.dataType.startsWith("[")) { // param.isArray is sometimes false for list types
+                    // defaulting due to https://github.com/wing328/openapi-generator/issues/72
+                    param.collectionFormat = "csv";
+                    param.vendorExtensions.put(VENDOR_EXTENSION_X_COLLECTION_FORMAT, mapCollectionFormat(param.collectionFormat));
+                }
+            }
+            if (param.isQueryParam && (isJsonMimeType(param.contentType) || ContainsJsonMimeType(param.contentType))) {
+                param.vendorExtensions.put(X_MEDIA_IS_JSON, "true");
             }
             if (!param.required) {
                 op.vendorExtensions.put(VENDOR_EXTENSION_X_HAS_OPTIONAL_PARAMS, true);
@@ -1260,7 +1271,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     public String toDefaultValue(Schema p) {
         if (ModelUtils.isStringSchema(p)) {
             if (p.getDefault() != null) {
-                return "\"" + escapeText((String) p.getDefault()) + "\"";
+                return "\"" + escapeText((String.valueOf(p.getDefault()))) + "\"";
             }
         } else if (ModelUtils.isBooleanSchema(p)) {
             if (p.getDefault() != null) {
@@ -1436,8 +1447,8 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         // finally escalate characters avoiding code injection
         return escapeUnsafeCharacters(
                 StringEscapeUtils.unescapeJava(
-                        StringEscapeUtils.escapeJava(input)
-                                .replace("\\/", "/"))
+                                StringEscapeUtils.escapeJava(input)
+                                        .replace("\\/", "/"))
                         .replaceAll("[\\t\\n\\r]", " ")
                         .replace("\\", "\\\\")
                         .replace("\"", "\\\""));
@@ -1471,10 +1482,13 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
             }
         }
     }
+
     static boolean ContainsJsonMimeType(String mime) {
-            return mime != null && CONTAINS_JSON_MIME_PATTERN.matcher(mime).matches();
+        return mime != null && CONTAINS_JSON_MIME_PATTERN.matcher(mime).matches();
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.HASKELL; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.HASKELL;
+    }
 }

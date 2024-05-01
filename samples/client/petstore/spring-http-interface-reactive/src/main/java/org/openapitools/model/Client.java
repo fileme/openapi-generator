@@ -16,10 +16,9 @@ import jakarta.annotation.Generated;
  * Client
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class Client {
 
-  @JsonProperty("client")
   private String client;
 
   public Client client(String client) {
@@ -32,6 +31,7 @@ public class Client {
    * @return client
   */
   
+  @JsonProperty("client")
   public String getClient() {
     return client;
   }

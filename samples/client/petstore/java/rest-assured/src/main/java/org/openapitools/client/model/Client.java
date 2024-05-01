@@ -28,7 +28,7 @@ import org.hibernate.validator.constraints.*;
 /**
  * Client
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class Client {
   public static final String SERIALIZED_NAME_CLIENT = "client";
   @SerializedName(SERIALIZED_NAME_CLIENT)
@@ -58,7 +58,6 @@ public class Client {
   public void setClient(String client) {
     this.client = client;
   }
-
 
   @Override
   public boolean equals(Object o) {

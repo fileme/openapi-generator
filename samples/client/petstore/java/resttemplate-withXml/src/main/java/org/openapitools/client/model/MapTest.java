@@ -38,7 +38,7 @@ import io.github.threetenjaxb.core.*;
   MapTest.JSON_PROPERTY_DIRECT_MAP,
   MapTest.JSON_PROPERTY_INDIRECT_MAP
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 @XmlRootElement(name = "MapTest")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "MapTest")
@@ -134,6 +134,8 @@ public class MapTest {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_MAP_MAP_OF_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "map_map_of_string")
+  @JacksonXmlElementWrapper(useWrapping = false)
 
   public Map<String, Map<String, String>> getMapMapOfString() {
     return mapMapOfString;
@@ -142,10 +144,11 @@ public class MapTest {
 
   @JsonProperty(JSON_PROPERTY_MAP_MAP_OF_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "map_map_of_string")
+  @JacksonXmlElementWrapper(useWrapping = false)
   public void setMapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
     this.mapMapOfString = mapMapOfString;
   }
-
 
   public MapTest mapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
     
@@ -168,6 +171,8 @@ public class MapTest {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_MAP_OF_ENUM_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "map_of_enum_string")
+  @JacksonXmlElementWrapper(useWrapping = false)
 
   public Map<String, InnerEnum> getMapOfEnumString() {
     return mapOfEnumString;
@@ -176,10 +181,11 @@ public class MapTest {
 
   @JsonProperty(JSON_PROPERTY_MAP_OF_ENUM_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "map_of_enum_string")
+  @JacksonXmlElementWrapper(useWrapping = false)
   public void setMapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
     this.mapOfEnumString = mapOfEnumString;
   }
-
 
   public MapTest directMap(Map<String, Boolean> directMap) {
     
@@ -202,6 +208,8 @@ public class MapTest {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_DIRECT_MAP)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "direct_map")
+  @JacksonXmlElementWrapper(useWrapping = false)
 
   public Map<String, Boolean> getDirectMap() {
     return directMap;
@@ -210,10 +218,11 @@ public class MapTest {
 
   @JsonProperty(JSON_PROPERTY_DIRECT_MAP)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "direct_map")
+  @JacksonXmlElementWrapper(useWrapping = false)
   public void setDirectMap(Map<String, Boolean> directMap) {
     this.directMap = directMap;
   }
-
 
   public MapTest indirectMap(Map<String, Boolean> indirectMap) {
     
@@ -236,6 +245,8 @@ public class MapTest {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_INDIRECT_MAP)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "indirect_map")
+  @JacksonXmlElementWrapper(useWrapping = false)
 
   public Map<String, Boolean> getIndirectMap() {
     return indirectMap;
@@ -244,10 +255,11 @@ public class MapTest {
 
   @JsonProperty(JSON_PROPERTY_INDIRECT_MAP)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "indirect_map")
+  @JacksonXmlElementWrapper(useWrapping = false)
   public void setIndirectMap(Map<String, Boolean> indirectMap) {
     this.indirectMap = indirectMap;
   }
-
 
   @Override
   public boolean equals(Object o) {

@@ -29,7 +29,7 @@ import org.hibernate.validator.constraints.*;
 /**
  * EnumTest
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class EnumTest {
   /**
    * Gets or Sets enumString
@@ -268,7 +268,6 @@ public class EnumTest {
     this.enumString = enumString;
   }
 
-
   public EnumTest enumStringRequired(EnumStringRequiredEnum enumStringRequired) {
     
     this.enumStringRequired = enumStringRequired;
@@ -292,7 +291,6 @@ public class EnumTest {
     this.enumStringRequired = enumStringRequired;
   }
 
-
   public EnumTest enumInteger(EnumIntegerEnum enumInteger) {
     
     this.enumInteger = enumInteger;
@@ -314,7 +312,6 @@ public class EnumTest {
   public void setEnumInteger(EnumIntegerEnum enumInteger) {
     this.enumInteger = enumInteger;
   }
-
 
   public EnumTest enumNumber(EnumNumberEnum enumNumber) {
     
@@ -338,7 +335,6 @@ public class EnumTest {
     this.enumNumber = enumNumber;
   }
 
-
   public EnumTest outerEnum(OuterEnum outerEnum) {
     
     this.outerEnum = outerEnum;
@@ -361,7 +357,6 @@ public class EnumTest {
   public void setOuterEnum(OuterEnum outerEnum) {
     this.outerEnum = outerEnum;
   }
-
 
   @Override
   public boolean equals(Object o) {

@@ -33,7 +33,7 @@ import java.util.StringJoiner;
   ModelList.JSON_PROPERTY_123LIST
 })
 @JsonTypeName("List")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class ModelList {
   public static final String JSON_PROPERTY_123LIST = "123-list";
   private String _123list;
@@ -65,7 +65,6 @@ public class ModelList {
   public void set123list(String _123list) {
     this._123list = _123list;
   }
-
 
   @Override
   public boolean equals(Object o) {

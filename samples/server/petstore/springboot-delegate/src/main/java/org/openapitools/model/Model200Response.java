@@ -22,14 +22,20 @@ import javax.annotation.Generated;
 
 @ApiModel(description = "Model for testing model name starting with number")
 @JsonTypeName("200_response")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class Model200Response {
 
-  @JsonProperty("name")
   private Integer name;
 
-  @JsonProperty("class")
   private String propertyClass;
+
+  /**
+  * Constructor with all args parameters
+  */
+  public Model200Response(Integer name, String propertyClass) {
+      this.name = name;
+      this.propertyClass = propertyClass;
+  }
 
   public Model200Response name(Integer name) {
     this.name = name;
@@ -42,6 +48,7 @@ public class Model200Response {
   */
   
   @ApiModelProperty(value = "")
+  @JsonProperty("name")
   public Integer getName() {
     return name;
   }
@@ -61,6 +68,7 @@ public class Model200Response {
   */
   
   @ApiModelProperty(value = "")
+  @JsonProperty("class")
   public String getPropertyClass() {
     return propertyClass;
   }
