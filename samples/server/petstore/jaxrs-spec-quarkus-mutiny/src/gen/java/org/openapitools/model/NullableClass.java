@@ -23,7 +23,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @org.eclipse.microprofile.openapi.annotations.media.Schema(description="")
 @JsonTypeName("NullableClass")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class NullableClass extends HashMap<String, Object> implements Serializable {
   private Integer integerProp;
   private BigDecimal numberProp;
@@ -37,6 +37,9 @@ public class NullableClass extends HashMap<String, Object> implements Serializab
   private @Valid Map<String, Object> objectNullableProp;
   private @Valid Map<String, Object> objectAndItemsNullableProp;
   private @Valid Map<String, Object> objectItemsNullable = new HashMap<>();
+
+  public NullableClass() {
+  }
 
   /**
    **/
@@ -124,7 +127,7 @@ public class NullableClass extends HashMap<String, Object> implements Serializab
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("date_prop")
-  @Valid public LocalDate getDateProp() {
+  public LocalDate getDateProp() {
     return dateProp;
   }
 
@@ -143,7 +146,7 @@ public class NullableClass extends HashMap<String, Object> implements Serializab
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("datetime_prop")
-  @Valid public LocalDateTime getDatetimeProp() {
+  public LocalDateTime getDatetimeProp() {
     return datetimeProp;
   }
 
@@ -285,9 +288,9 @@ public class NullableClass extends HashMap<String, Object> implements Serializab
     return this;
   }
 
-  public NullableClass removeObjectNullablePropItem(Object objectNullablePropItem) {
-    if (objectNullablePropItem != null && this.objectNullableProp != null) {
-      this.objectNullableProp.remove(objectNullablePropItem);
+  public NullableClass removeObjectNullablePropItem(String key) {
+    if (this.objectNullableProp != null) {
+      this.objectNullableProp.remove(key);
     }
 
     return this;
@@ -320,9 +323,9 @@ public class NullableClass extends HashMap<String, Object> implements Serializab
     return this;
   }
 
-  public NullableClass removeObjectAndItemsNullablePropItem(Object objectAndItemsNullablePropItem) {
-    if (objectAndItemsNullablePropItem != null && this.objectAndItemsNullableProp != null) {
-      this.objectAndItemsNullableProp.remove(objectAndItemsNullablePropItem);
+  public NullableClass removeObjectAndItemsNullablePropItem(String key) {
+    if (this.objectAndItemsNullableProp != null) {
+      this.objectAndItemsNullableProp.remove(key);
     }
 
     return this;
@@ -355,9 +358,9 @@ public class NullableClass extends HashMap<String, Object> implements Serializab
     return this;
   }
 
-  public NullableClass removeObjectItemsNullableItem(Object objectItemsNullableItem) {
-    if (objectItemsNullableItem != null && this.objectItemsNullable != null) {
-      this.objectItemsNullable.remove(objectItemsNullableItem);
+  public NullableClass removeObjectItemsNullableItem(String key) {
+    if (this.objectItemsNullable != null) {
+      this.objectItemsNullable.remove(key);
     }
 
     return this;
